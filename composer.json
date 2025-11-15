@@ -1,0 +1,23 @@
+{
+  "name": "mscha/blogphpproject",
+  "description": "پروژه تستی برای تمرین شی گرایی در PHP",
+  "type": "project",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "mscha",
+      "email": "m.saleh.sedeghi@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    },
+    "files": [
+      "./helper.php"
+    ]
+  }
+}
