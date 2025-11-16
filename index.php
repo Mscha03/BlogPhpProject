@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 
 use App\Classes\Database;
 use App\Entities\PostEntity;
+use App\Models\Post;
 
-$database = new Database('posts', PostEntity::class);
-dd($database->data);
+$post = new Post();
+dd($post->getAllData());

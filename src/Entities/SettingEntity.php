@@ -32,6 +32,18 @@ class SettingEntity
         $this->footer = $item['footer'];
     }
 
+    public function toArray(): array {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'keywords' => $this->keywords,
+            'description' => $this->description,
+            'author' => $this->author,
+            'logo' => $this->logo,
+            'footer' => $this->footer
+        ];
+    }
+
     /**
      * @return mixed
      */

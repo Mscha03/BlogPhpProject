@@ -5,9 +5,9 @@ namespace App\Classes;
 class Database
 {
     private string $databaseFileAddress;
-    public array $data;
+    private array $data;
 
-    public function __construct($fileName, $entityClass)
+    public function __construct(string $fileName, $entityClass)
     {
         $this->databaseFileAddress = './database/' . $fileName . '.json';
 
@@ -20,4 +20,22 @@ class Database
         }, $data);
     }
 
+    public function setData(array $newData): array
+    {
+        $this->data = $newData;
+        $newData = array_map(function ($item) {
+            return $item->toArray();
+        }, $newData);
+
+        $file = fopen($this->databaseFileAddress, 'w+');
+        fwrite($file, json_encode($newData));
+        fclose($file);
+
+        return $newData;
+    }
+
+    public function getData(): array
+    {
+        return $this->data;
+    }
 }

@@ -32,6 +32,19 @@ class PostEntity
         $this->date = $item['date'];
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'content' => $this->content,
+            'category' => $this->category,
+            'view' => $this->view,
+            'image' => $this->image,
+            'date' => $this->date
+        ];
+    }
+
     /**
      * @return mixed
      */
@@ -143,9 +156,5 @@ class PostEntity
     {
         $this->date = $date;
     }
-
-
-
-
 
 }

@@ -29,6 +29,18 @@ class UserEntity
         $this->date = $item['date'];
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'first_name' => $this->firstName,
+            'last_name' => $this->lastName,
+            'email' => $this->email,
+            'password' => $this->password,
+            'date' => $this->date
+        ];
+    }
+
     /**
      * @return mixed
      */
