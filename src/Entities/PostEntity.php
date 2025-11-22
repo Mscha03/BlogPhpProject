@@ -157,4 +157,8 @@ class PostEntity
         $this->date = $date;
     }
 
+    public function getTimeStamp() {
+        return strtotime($this->date);
+    }
+
 }
