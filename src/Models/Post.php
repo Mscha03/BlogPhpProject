@@ -4,7 +4,12 @@ namespace App\Models;
 
 use App\Entities\PostEntity;
 
-class Post extends Model
+/**
+ * Post model
+ *
+ * Handles database operations for blog posts
+ */
+final class Post extends Model
 {
     protected string $fileName = 'posts';
     protected string $entityClass = PostEntity::class;

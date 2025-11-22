@@ -2,37 +2,34 @@
 
 namespace App\Entities;
 
-class SettingEntity
+/**
+ * Setting entity
+ *
+ * Represents application settings and metadata
+ */
+final class SettingEntity
 {
-    private $id;
-    private $title;
-    private $keywords;
-    private $description;
-    private $author;
-    private $logo;
-    private $footer;
+    private int $id;
+    private string $title;
+    private string $keywords;
+    private string $description;
+    private string $author;
+    private string $logo;
+    private string $footer;
 
-    /**
-     * @param $id
-     * @param $title
-     * @param $keywords
-     * @param $description
-     * @param $author
-     * @param $logo
-     * @param $footer
-     */
-    public function __construct($item)
+    public function __construct(array $item)
     {
-        $this->id = $item['id'];
-        $this->title = $item['title'];
-        $this->keywords = $item['keywords'];
-        $this->description = $item['description'];
-        $this->author = $item['author'];
-        $this->logo = $item['logo'];
-        $this->footer = $item['footer'];
+        $this->id = (int)$item['id'];
+        $this->title = (string)$item['title'];
+        $this->keywords = (string)$item['keywords'];
+        $this->description = (string)$item['description'];
+        $this->author = (string)$item['author'];
+        $this->logo = (string)$item['logo'];
+        $this->footer = (string)$item['footer'];
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -40,65 +37,72 @@ class SettingEntity
             'description' => $this->description,
             'author' => $this->author,
             'logo' => $this->logo,
-            'footer' => $this->footer
+            'footer' => $this->footer,
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getKeywords()
+    public function setTitle(string $title): void
+    {
+        $this->title = $title;
+    }
+
+    public function getKeywords(): string
     {
         return $this->keywords;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDescription()
+    public function setKeywords(string $keywords): void
+    {
+        $this->keywords = $keywords;
+    }
+
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getAuthor()
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getAuthor(): string
     {
         return $this->author;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLogo()
+    public function setAuthor(string $author): void
+    {
+        $this->author = $author;
+    }
+
+    public function getLogo(): string
     {
         return $this->logo;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFooter()
+    public function setLogo(string $logo): void
+    {
+        $this->logo = $logo;
+    }
+
+    public function getFooter(): string
     {
         return $this->footer;
     }
 
-
+    public function setFooter(string $footer): void
+    {
+        $this->footer = $footer;
+    }
 }

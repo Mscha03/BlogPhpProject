@@ -2,34 +2,30 @@
 
 namespace App\Entities;
 
-class PostEntity
+/**
+ * Post entity
+ *
+ * Represents a blog post with all its properties
+ */
+final class PostEntity
 {
-    private $id;
-    private $title;
-    private $content;
-    private $category;
-    private $view;
-    private $image;
-    private $date;
+    private int $id;
+    private string $title;
+    private string $content;
+    private string $category;
+    private int $view;
+    private string $image;
+    private string $date;
 
-    /**
-     * @param $id
-     * @param $title
-     * @param $content
-     * @param $category
-     * @param $view
-     * @param $image
-     * @param $date
-     */
-    public function __construct($item)
+    public function __construct(array $item)
     {
-        $this->id = $item['id'];
-        $this->title = $item['title'];
-        $this->content = $item['content'];
-        $this->category = $item['category'];
-        $this->view = $item['view'];
-        $this->image = $item['image'];
-        $this->date = $item['date'];
+        $this->id = (int)$item['id'];
+        $this->title = (string)$item['title'];
+        $this->content = (string)$item['content'];
+        $this->category = (string)$item['category'];
+        $this->view = (int)$item['view'];
+        $this->image = (string)$item['image'];
+        $this->date = (string)$item['date'];
     }
 
     public function toArray(): array
@@ -41,124 +37,87 @@ class PostEntity
             'category' => $this->category,
             'view' => $this->view,
             'image' => $this->image,
-            'date' => $this->date
+            'date' => $this->date,
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
 
-    /**
-     * @param mixed $title
-     */
-    public function setTitle($title): void
+    public function setTitle(string $title): void
     {
         $this->title = $title;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
 
-    /**
-     * @param mixed $content
-     */
-    public function setContent($content): void
+    public function setContent(string $content): void
     {
         $this->content = $content;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getCategory()
+    public function getCategory(): string
     {
         return $this->category;
     }
 
-    /**
-     * @param mixed $category
-     */
-    public function setCategory($category): void
+    public function setCategory(string $category): void
     {
         $this->category = $category;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getView()
+    public function getView(): int
     {
         return $this->view;
     }
 
-    /**
-     * @param mixed $view
-     */
-    public function setView($view): void
+    public function setView(int $view): void
     {
         $this->view = $view;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImage()
+    public function incrementView(): void
+    {
+        $this->view++;
+    }
+
+    public function getImage(): string
     {
         return $this->image;
     }
 
-    /**
-     * @param mixed $image
-     */
-    public function setImage($image): void
+    public function setImage(string $image): void
     {
         $this->image = $image;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDate()
+    public function getDate(): string
     {
         return $this->date;
     }
 
-    /**
-     * @param mixed $date
-     */
-    public function setDate($date): void
+    public function setDate(string $date): void
     {
         $this->date = $date;
     }
 
-    public function getTimeStamp() {
+    public function getTimestamp(): int
+    {
         return strtotime($this->date);
     }
-
 }

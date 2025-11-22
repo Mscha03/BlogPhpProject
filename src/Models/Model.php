@@ -5,6 +5,11 @@ namespace App\Models;
 use App\Classes\Database;
 use App\Exceptions\DoesNotExistsException;
 
+/**
+ * Abstract base model for database operations
+ *
+ * Provides CRUD operations and query methods for entity models
+ */
 abstract class Model
 {
     private Database $database;
@@ -13,134 +18,191 @@ abstract class Model
 
     public function __construct()
     {
-        $this->database = new Database(fileName: $this->fileName, entityClass: $this->entityClass);
+        $this->database = new Database(
+            fileName: $this->fileName,
+            entityClass: $this->entityClass);
     }
 
+    /**
+     * Get all data from database
+     *
+     * @return array Array of entity objects
+     */
     public function getAllData(): array
     {
         return $this->database->getData();
     }
 
     /**
-     * @throws DoesNotExistsException
+     * Find entity by ID
+     *
+     * @param int $id Entity ID
+     * @return object Entity object
+     * @throws DoesNotExistsException If entity not found
      */
-    public function getDataById(int $id)
+    public function getDataById(int $id): object
     {
         $data = $this->database->getData();
 
-        $array = array_filter($data, function ($item) use ($id) {
-            return $item->getId() === $id;
-        });
+        $filtered  = array_filter(
+            $data,
+            fn($item) => $item->getId() === $id
+        );
 
-        $array = array_values($array);
-
-        if (count($array)) {
-            return $array[0];
+        if (empty($filtered)) {
+            throw new DoesNotExistsException(
+                "Entity with ID {$id} does not exist in {$this->entityClass}"
+            );
         }
-        throw new DoesNotExistsException("Does not exists any {$this->entityClass} ");
+
+        return array_values($filtered)[0];
     }
 
     /**
-     * @throws DoesNotExistsException
+     * Get entity with highest ID
+     *
+     * @return object Entity object
+     * @throws DoesNotExistsException If no data exists
      */
-    public function getLastData()
+    public function getLastData(): object
     {
         $data = $this->database->getData();
-        uasort($data, function ($first, $second) {
-            return $first->getId() > $second->getId() ? -1 : 1;
-        });
 
-        $data = array_values($data);
-
-        if (count($data)) {
-            return $data[0];
+        if (empty($data)) {
+            throw new DoesNotExistsException(
+                "No data exists in {$this->entityClass}"
+            );
         }
 
-        throw new DoesNotExistsException("Does not exists any {$this->entityClass} ");
+        uasort(
+            $data,
+            fn($first, $second) => $second->getId() <=> $first->getId()
+        );
+
+        return $data[0];
     }
 
     /**
-     * @throws DoesNotExistsException
+     * Get entity with lowest ID
+     *
+     * @return object Entity object
+     * @throws DoesNotExistsException If no data exists
      */
-    public function getFirstData()
+    public function getFirstData(): object
     {
         $data = $this->database->getData();
-        uasort($data, function ($first, $second) {
-            return $first->getId() < $second->getId() ? -1 : 1;
-        });
 
-        $data = array_values($data);
-
-        if (count($data)) {
-            return $data[0];
+        if (empty($data)) {
+            throw new DoesNotExistsException(
+                "No data exists in {$this->entityClass}"
+            );
         }
 
-        throw new DoesNotExistsException("Does not exists any {$this->entityClass} ");
+        usort(
+            $data,
+            fn($first, $second) => $first->getId() <=> $second->getId()
+        );
+
+        return $data[0];
     }
 
     /**
-     * @throws DoesNotExistsException
+     * Sort data with custom callback
+     *
+     * @param callable $callback Sort comparison function
+     * @return array Sorted array of entities
+     * @throws DoesNotExistsException If no data exists
      */
-    public function sortData($callback)
+    public function sortData(callable $callback): array
     {
-
         $data = $this->database->getData();
-        uasort($data, $callback);
 
-        $data = array_values($data);
-
-        if (count($data)) {
-            return $data;
+        if (empty($data)) {
+            throw new DoesNotExistsException(
+                "No data exists in {$this->entityClass}"
+            );
         }
 
-        throw new DoesNotExistsException("Does not exists any {$this->entityClass} ");
+        usort($data, $callback);
+
+        return $data;
     }
 
     /**
-     * @throws DoesNotExistsException
+     * Filter data with custom callback
+     *
+     * @param callable $callback Filter function
+     * @return array Filtered array of entities
+     * @throws DoesNotExistsException If no matching data found
      */
-    public function filterData($callback) {
-        $data = $this->database->getData();
-        $data = array_filter($data, $callback);
-
-        $data = array_values($data);
-
-        if (count($data)) {
-            return $data;
-        }
-
-        throw new DoesNotExistsException("Does not exists any {$this->entityClass} ");
-    }
-
-    public function createData($new)
+    public function filterData(callable $callback): array
     {
         $data = $this->database->getData();
-        $data[] = $new;
+        $filtered = array_filter($data, $callback);
 
+        if (empty($filtered)) {
+            throw new DoesNotExistsException(
+                "No matching data found in {$this->entityClass}"
+            );
+        }
+
+        return array_values($filtered);
+    }
+
+    /**
+     * Create new entity
+     *
+     * @param object $newEntity Entity object to create
+     * @return void
+     */
+    public function createData(object $newEntity): void
+    {
+        $data = $this->database->getData();
+        $data[] = $newEntity;
         $this->database->setData($data);
     }
 
-    public function deleteData($id)
+    /**
+     * Delete entity by ID
+     *
+     * @param int $id Entity ID to delete
+     * @return bool True on success
+     */
+    public function deleteData(int $id): bool
     {
         $data = $this->database->getData();
-        $newData = array_filter($data, function ($item) use ($id) {
-            return !($item->getId() === $id);
-        });
 
-        $newData = array_values($newData);
+        $newData = array_values(
+            array_filter(
+                $data,
+                fn($item) => $item->getId() !== $id
+            )
+        );
+
         $this->database->setData($newData);
 
         return true;
     }
 
-    public function editData($new)
+    /**
+     * Update existing entity
+     *
+     * @param object $updatedEntity Updated entity object
+     * @return bool True on success
+     */
+    public function editData(object $updatedEntity): bool
     {
         $data = $this->database->getData();
-        $newData = array_map(function ($item) use ($new) {
-            return $item->getId() === $new->getId() ? $new : $item;
-        }, $data);
 
-        $newData = array_values($newData);
+        $newData = array_values(
+            array_map(
+                fn($item) => $item->getId() === $updatedEntity->getId()
+                    ? $updatedEntity
+                    : $item,
+                $data
+            )
+        );
+
         $this->database->setData($newData);
 
         return true;

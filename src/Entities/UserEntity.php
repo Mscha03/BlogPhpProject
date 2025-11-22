@@ -2,31 +2,28 @@
 
 namespace App\Entities;
 
-class UserEntity
+/**
+ * User entity
+ *
+ * Represents a user account
+ */
+final class UserEntity
 {
-    private $id;
-    private $firstName;
-    private $lastName;
-    private $email;
-    private $password;
-    private $date;
+    private int $id;
+    private string $firstName;
+    private string $lastName;
+    private string $email;
+    private string $password;
+    private string $date;
 
-    /**
-     * @param $id
-     * @param $firstName
-     * @param $lastName
-     * @param $email
-     * @param $password
-     * @param $date
-     */
-    public function __construct($item)
+    public function __construct(array $item)
     {
-        $this->id = $item['id'];
-        $this->firstName = $item['first_name'];
-        $this->lastName = $item['last_name'];
-        $this->email = $item['email'];
-        $this->password = $item['password'];
-        $this->date = $item['date'];
+        $this->id = (int)$item['id'];
+        $this->firstName = (string)$item['first_name'];
+        $this->lastName = (string)$item['last_name'];
+        $this->email = (string)$item['email'];
+        $this->password = (string)$item['password'];
+        $this->date = (string)$item['date'];
     }
 
     public function toArray(): array
@@ -37,58 +34,72 @@ class UserEntity
             'last_name' => $this->lastName,
             'email' => $this->email,
             'password' => $this->password,
-            'date' => $this->date
+            'date' => $this->date,
         ];
     }
 
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastName()
+    public function setFirstName(string $firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    public function getLastName(): string
     {
         return $this->lastName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmail()
+    public function setLastName(string $lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
+
+    public function getEmail(): string
     {
         return $this->email;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPassword()
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
+    }
+
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDate()
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
+    public function getDate(): string
     {
         return $this->date;
     }
 
+    public function setDate(string $date): void
+    {
+        $this->date = $date;
+    }
 
+    public function getTimestamp(): int
+    {
+        return strtotime($this->date);
+    }
 }
-
