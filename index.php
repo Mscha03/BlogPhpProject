@@ -1,8 +1,8 @@
 <?php
 
+use App\Templates\MainPage;
+
 require 'vendor/autoload.php';
 
-use App\Models\Post;
-
-$post = new Post();
-dd($post->getAllData());
+$page = new MainPage();
+$page->renderPage();

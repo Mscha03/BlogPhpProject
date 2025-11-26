@@ -71,6 +71,11 @@ final class PostEntity
         $this->content = $content;
     }
 
+    public function getExcerpt(int $count = 200): string
+    {
+        return substr($this->content, 0, $count) . '...';
+    }
+
     public function getCategory(): string
     {
         return $this->category;

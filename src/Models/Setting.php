@@ -11,6 +11,6 @@ use App\Entities\SettingEntity;
  */
 final class Setting extends Model
 {
-    protected string $fileName = 'settings';
+    protected string $fileName = 'setting';
     protected string $entityClass = SettingEntity::class;
 }
