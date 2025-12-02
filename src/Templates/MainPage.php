@@ -7,7 +7,7 @@ use App\Models\Post;
 class MainPage extends Template
 {
     private $topPosts;
-    private $lastPost;
+    private $lastPosts;
     private $posts;
 
     public function __construct()
@@ -20,7 +20,7 @@ class MainPage extends Template
         $this->topPosts = $postModel->sortData(callback: function ($first, $second) {
             return $first->getView() > $second->getView() ? -1 : 1;
         });
-        $this->lastPost = $postModel->sortData(callback: function ($first, $second) {
+        $this->lastPosts = $postModel->sortData(callback: function ($first, $second) {
             return $first->getTimestamp() > $second->getTimestamp() ? -1 : 1;
         });
 
@@ -29,7 +29,7 @@ class MainPage extends Template
     }
 
 
-    public function renderPage()
+    public function renderPage(): void
     {
         ?>
         <html lang="en">
@@ -39,7 +39,7 @@ class MainPage extends Template
                     <?php $this->getHeader();?>
                     <?php $this->getNavbar();?>
                     <section id="content">
-                        <?php $this->getSidebar($this->topPosts, $this->lastPost) ?>
+                        <?php $this->getSidebar($this->topPosts, $this->lastPosts) ?>
                         <?php if(count($this->posts)) : ?>
                             <div id="articles">
                                 <?php foreach($this->posts as $post) : ?>

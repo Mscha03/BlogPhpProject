@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class DoesNotExistsException extends Exception
+class NotFoundException extends Exception
 {
 
 }

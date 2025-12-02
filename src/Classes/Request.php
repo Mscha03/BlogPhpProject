@@ -8,13 +8,8 @@ class Request
     private string $method;
     private string $url;
 
-    /**
-     * @param array $attributes
-     * @param $url
-     */
-    public function __construct(array $attributes, $url)
+    public function __construct()
     {
-        $this->attributes = $attributes;
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 

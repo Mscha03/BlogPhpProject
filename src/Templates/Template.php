@@ -2,6 +2,7 @@
 
 namespace App\Templates;
 
+use App\Classes\Request;
 use App\Entities\SettingEntity;
 use App\Exceptions\DoesNotExistsException;
 use App\Models\Setting;
@@ -10,12 +11,15 @@ abstract class Template
 {
     protected string $title;
     protected SettingEntity $setting;
+    protected Request $request;
 
     /**
      * @throws DoesNotExistsException
      */
     public function __construct()
     {
+        $this->request = new Request();
+
         $settingModel = new Setting();
         $this->setting = $settingModel->getFirstData();
     }

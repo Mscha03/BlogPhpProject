@@ -1,8 +1,9 @@
 <?php
 
 use App\Templates\MainPage;
+use App\Templates\SinglePage;
 
 require 'vendor/autoload.php';
 
-$page = new MainPage();
+$page = new SinglePage();
 $page->renderPage();
