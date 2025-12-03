@@ -1,9 +1,11 @@
 <?php
 
+require 'vendor/autoload.php';
+
+use App\Templates\CategoryPage;
 use App\Templates\MainPage;
 use App\Templates\SinglePage;
 
-require 'vendor/autoload.php';
 
-$page = new SinglePage();
+$page = new CategoryPage();
 $page->renderPage();

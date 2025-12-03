@@ -11,7 +11,7 @@ class Request
     public function __construct()
     {
         $this->method = $_SERVER['REQUEST_METHOD'];
-        $this->url = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+        $this->url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
         if($this->method === 'POST'){
             foreach ($_POST as $key => $value) {
@@ -28,7 +28,7 @@ class Request
         }
     }
 
-    public function _get(string $name)
+    public function __get(string $name)
     {
         if(array_key_exists($name, $this->attributes)){
             return $this->attributes[$name];
