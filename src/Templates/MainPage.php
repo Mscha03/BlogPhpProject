@@ -53,6 +53,7 @@ class MainPage extends Template
                                             <p>
                                                 <?= $post->getExcerpt() ?>
                                             </p>
+                                            <a href="<?= url(path:'index.php', query: ['action' => 'single', 'id' => $post->getId()])?>">More...</a>
                                         </div>
                                         <div class="image">
                                             <img src="<?= asset($post->getImage()) ?>" alt="<?= $post->getTitle() ?>">

@@ -72,7 +72,11 @@ abstract class Template
                         <h2>Top Posts</h2>
                         <ul>
                             <?php foreach ($topPosts as $item): ?>
-                                <li><a href="#"><?= $item->getTitle() ?> <small>( <?= $item->getView() ?>)</small></a> </li>
+                                <li>
+                                    <a href="<?= url(path:'index.php', query: ['action' => 'single', 'id' => $item->getId()])?>">
+                                        <?= $item->getTitle() ?> <small>( <?= $item->getView() ?>)</small>
+                                    </a>
+                                </li>
                             <?php endforeach ?>
                         </ul>
                     </div>
@@ -81,7 +85,11 @@ abstract class Template
                     <h2>Lasts Posts</h2>
                     <ul>
                         <?php foreach ($lastPosts as $item): ?>
-                            <li><a href="#"><?= $item->getTitle() ?> <small>( <?= $item->getDate() ?>)</small></a> </li>
+                            <li>
+                                <a href="<?= url(path:'index.php', query: ['action' => 'single', 'id' => $item->getId()])?>">
+                                    <?= $item->getTitle() ?> <small>( <?= $item->getDate() ?>)</small>
+                                </a>
+                            </li>
                         <?php endforeach ?>
                     </ul>
                 </div>
@@ -91,18 +99,22 @@ abstract class Template
 
     protected function getNavbar(): void
     {
+        $word = $this->request->has('word')? $this->request->get('word') : ''
         ?>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About Us</a></li>
+                    <li><a href="<?= url(path: 'index.php')?>">Home</a></li>
+                    <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'sport'])?>">Sport</a></li>
+                    <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'social'])?>">Social</a></li>
+                    <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'political'])?>">Political</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#">Gallery</a></li>
                     <li><a href="#">Contact Us</a></li>
                 </ul>
-                <form action="#" method="get">
+                <form action="<?= url(path: 'index.php') ?>" method="GET">
+                    <input type="hidden" name="action" value="search"/>
                     <label>
-                        <input type="text" name="search" placeholder="search your word"/>
+                        <input type="text" name="word" placeholder="search your word" value="<?=  $word ?>"/>
                     </label>
                     <input type="submit" value="search">
                 </form>

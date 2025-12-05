@@ -14,3 +14,12 @@ function asset($file): string
 {
     return BASE_URL . 'assets/' . $file;
 }
+
+function url($path, $query = []): string
+{
+    if (!count($query)) {
+        return BASE_URL . $path;
+    }
+
+    return BASE_URL . $path . '?' . http_build_query($query);
+}
