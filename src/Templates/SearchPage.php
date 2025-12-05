@@ -1,0 +1,87 @@
+<?php
+
+namespace App\Templates;
+
+use App\Exceptions\DoesNotExistsException;
+use App\Exceptions\NotFoundException;
+use App\Models\Post;
+
+class SearchPage extends Template
+{
+    private array $posts;
+    private array $topPosts;
+    private array $lastPosts;
+
+    /**
+     * @throws NotFoundException
+     * @throws DoesNotExistsException
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        if (!$this->request->has('word')){
+            throw new NotFoundException('Page not found');
+        }
+
+        $word = $this->request->get('word');
+        $this->title = $this->setting->getTitle() . ' - result for: ' . $word;
+        $postModel = new Post();
+
+        $this->posts = $postModel->filterData(callback: function ($item) use ($word) {
+            return str_contains($item->getTitle(), $word) or str_contains($item->getContent(), $word);
+        });
+
+        $this->topPosts = $postModel->sortData(callback: function ($first, $second) {
+            return $first->getView() > $second->getView() ? -1 : 1;
+        });
+
+        $this->lastPosts = $postModel->sortData(callback: function ($first, $second) {
+            return $first->getTimestamp() > $second->getTimestamp() ? -1 : 1;
+        });
+    }
+
+
+    public function renderPage(): void
+    {
+        ?>
+        <html lang="en">
+        <?php $this->getHead(); ?>
+        <body>
+        <main>
+            <?php $this->getHeader();?>
+            <?php $this->getNavbar();?>
+            <section id="content">
+                <?php $this->getSidebar($this->topPosts, $this->lastPosts) ?>
+                <?php if(count($this->posts)) : ?>
+                    <div id="articles">
+                        <?php foreach($this->posts as $post) : ?>
+                            <article>
+                                <div class="caption">
+                                    <h3><?= $post->getTitle() ?></h3>
+                                    <ul>
+                                        <li>Date: <span><?= $post->getDate() ?></span></li>
+                                        <li>Views: <span><?= $post->getView() ?> view</span></li>
+                                    </ul>
+                                    <p>
+                                        <?= $post->getExcerpt() ?>
+                                    </p>
+                                    <a href="<?= url(path:'index.php', query: ['action' => 'single', 'id' => $post->getId()])?>">More...</a>
+                                </div>
+                                <div class="image">
+                                    <img src="<?= asset($post->getImage()) ?>" alt="<?= $post->getTitle() ?>">
+                                </div>
+                                <div class="clearfix"></div>
+                            </article>
+                        <?php endforeach ?>
+                    </div>
+                <?php endif ?>
+                <div class="clearfix"></div>
+            </section>
+            <?php $this->getFooter(); ?>
+        </main>
+        </body>
+        </html>
+        <?php
+    }
+}
