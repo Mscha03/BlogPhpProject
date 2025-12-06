@@ -7,6 +7,7 @@ use App\Exceptions\DoesNotExistsException;
 use App\Exceptions\NotFoundException;
 use App\Templates\CategoryPage;
 use App\Templates\ErrorPage;
+use App\Templates\LoginPage;
 use App\Templates\MainPage;
 use App\Templates\NotFoundPage;
 use App\Templates\SearchPage;
@@ -24,6 +25,9 @@ try {
             break;
         case 'category':
             $page = new CategoryPage();
+            break;
+        case 'login':
+            $page = new LoginPage();
             break;
         case null:
             $page = new MainPage();

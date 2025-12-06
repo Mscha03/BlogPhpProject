@@ -3,7 +3,6 @@
 namespace App\Templates;
 
 use App\Exceptions\DoesNotExistsException;
-use App\Templates\Template;
 
 class NotFoundPage extends Template
 {
@@ -32,7 +31,7 @@ class NotFoundPage extends Template
                     <section id="content">
                         <?= $this->message ?>
                         <br/>
-                        <a href="index.php">go home</a>
+                        <a href="<?= url(path: 'index.php')?>">go home</a>
                     </section>
                 </main>
             </body>

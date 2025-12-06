@@ -107,6 +107,7 @@ abstract class Template
                     <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'sport'])?>">Sport</a></li>
                     <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'social'])?>">Social</a></li>
                     <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'political'])?>">Political</a></li>
+                    <li><a href="<?= url(path: 'index.php', query: ['action' => 'login'])?>">Login</a></li>
                     <li><a href="#">Blog</a></li>
                     <li><a href="#">Gallery</a></li>
                     <li><a href="#">Contact Us</a></li>
@@ -119,6 +120,18 @@ abstract class Template
                     <input type="submit" value="search">
                 </form>
             </nav>
+        <?php
+    }
+
+    protected function getAdminHead(): void
+    {
+        ?>
+        <head>
+            <title><?= $this->title ?>  </title>
+
+            <link rel="stylesheet" href="<?= asset('css/style.css')?>">
+            <link rel="stylesheet" href="<?= asset('css/panel.css')?>">
+        </head>
         <?php
     }
 
