@@ -13,12 +13,16 @@ class Request
         $this->method = $_SERVER['REQUEST_METHOD'];
         $this->url = 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
 
-        if($this->method === 'POST'){
+        if($this->isPostMethod()){
             foreach ($_POST as $key => $value) {
                 $this->attributes[$key] = $value;
             }
 
             foreach ($_FILES as $key => $value) {
+                $this->attributes[$key] = $value;
+            }
+
+            foreach ($_GET as $key => $value) {
                 $this->attributes[$key] = $value;
             }
         } else {
@@ -60,5 +64,10 @@ class Request
     public function getUrl(): string
     {
         return $this->url;
+    }
+
+    public function isPostMethod(): bool
+    {
+        return strtolower($this->method) === 'post';
     }
 }

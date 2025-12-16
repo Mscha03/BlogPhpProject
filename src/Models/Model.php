@@ -12,7 +12,7 @@ use App\Exceptions\DoesNotExistsException;
  */
 abstract class Model
 {
-    private Database $database;
+    protected Database $database;
     protected string $fileName;
     protected string $entityClass;
 

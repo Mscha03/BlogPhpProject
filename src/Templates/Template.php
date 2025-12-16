@@ -3,6 +3,7 @@
 namespace App\Templates;
 
 use App\Classes\Request;
+use App\Classes\Validator;
 use App\Entities\SettingEntity;
 use App\Exceptions\DoesNotExistsException;
 use App\Models\Setting;
@@ -12,6 +13,7 @@ abstract class Template
     protected string $title;
     protected SettingEntity $setting;
     protected Request $request;
+    protected Validator $validator;
 
     /**
      * @throws DoesNotExistsException
@@ -19,6 +21,7 @@ abstract class Template
     public function __construct()
     {
         $this->request = new Request();
+        $this->validator = new Validator(request: $this->request);
 
         $settingModel = new Setting();
         $this->setting = $settingModel->getFirstData();
