@@ -2,9 +2,8 @@
 
 namespace App\Templates;
 
-use App\Classes\Request;
+use App\Classes\Auth;
 use App\Models\User;
-use App\Templates\Template;
 
 class LoginPage extends Template
 {
@@ -13,6 +12,10 @@ class LoginPage extends Template
     public function __construct()
     {
         parent::__construct();
+
+        if (Auth::isAuthenticated()){
+            redirect(path: 'panel.php', query: ['action' => 'posts']);
+        }
 
         $this->title = $this->setting->getTitle() . ' - Login to system';
 
@@ -25,8 +28,9 @@ class LoginPage extends Template
           if(!$data->hasErrors()){
               $userModel = new User();
               $user = $userModel->authenticateUser(email: $this->request->email, password: $this->request->password);
-              if ($user) {
-                dd('user is logged in');
+              if ($user){
+                  Auth::loginUser($user);
+                  redirect('panel.php');
               } else {
                   $this->errors[] = 'invalid email or password';
               }
@@ -34,6 +38,21 @@ class LoginPage extends Template
               dd($data->getErrors());
               $this->errors = $data->getErrors();
           }
+        }
+    }
+
+    public function showErrors(): void
+    {
+        if (count($this->errors)){
+            ?>
+                <div class="errors">
+                    <ul>
+                        <?php foreach ($this->errors as $error): ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach;?>
+                    </ul>
+                </div>
+            <?php
         }
     }
 
@@ -48,11 +67,7 @@ class LoginPage extends Template
                 <form method="post" action="<?= url(path: 'index.php', query: ['action' => 'login']) ?>">
                     <div class="login">
                         <h3>Login to System</h3>
-                        <div class="errors">
-                            <ul>
-                                <li>error is exists</li>
-                            </ul>
-                        </div>
+                        <?php $this->showErrors();?>
                         <div>
                             <label for="email">Email:</label>
                             <input type="text" id="email" name="email">
