@@ -2,6 +2,7 @@
 
 namespace App\Templates;
 
+use App\Classes\Auth;
 use App\Classes\Request;
 use App\Classes\Validator;
 use App\Entities\SettingEntity;
@@ -130,11 +131,30 @@ abstract class Template
     {
         ?>
         <head>
-            <title><?= $this->title ?>  </title>
+            <title> <?= $this->title ?> </title>
 
             <link rel="stylesheet" href="<?= asset('css/style.css')?>">
             <link rel="stylesheet" href="<?= asset('css/panel.css')?>">
         </head>
+        <?php
+    }
+
+    protected function getAdminNavbar(): void {
+
+        $user = Auth::getLoggedInUser();
+
+        ?>
+        <nav>
+            <ul>
+                <li><a href="<?= url('index.php') ?>">Panel</a></li>
+                <li><a href="<?= url('panel.php', ['action' => 'posts'])?>">Posts</a></li>
+                <li><a href="<?= url('panel.php', ['action' => 'create'])?>">Create Posts</a></li>
+                <li><a href="<?= url('panel.php', ['action' => 'logout'])?>">Logout</a></li>
+            </ul>
+            <ul>
+                <li><?= $user->getFullName() ?></li>
+            </ul>
+        </nav>
         <?php
     }
 

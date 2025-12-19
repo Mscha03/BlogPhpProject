@@ -1,0 +1,35 @@
+<?php
+
+use App\Classes\Auth;
+use App\Classes\Request;
+use App\Exceptions\DoesNotExistsException;
+use App\Exceptions\NotFoundException;
+use App\Templates\ErrorPage;
+use App\Templates\NotFoundPage;
+use App\Templates\PostPage;
+
+session_start();
+
+require 'vendor/autoload.php';
+
+try {
+    Auth::checkAuthenticated();
+
+    $request = new Request();
+    switch ($request->get('action')) {
+        case 'post':
+            $page = new PostPage();
+            break;
+        case 'logout':
+            Auth::logoutUser();
+            break;
+        default:
+            throw new NotFoundException('Not Found Page!');
+    }
+} catch (DoesNotExistsException | NotFoundException $exception) {
+    $page = new NotFoundPage($exception->getMessage());
+} catch (Exception $exception) {
+    $page = new ErrorPage($exception->getMessage());
+} finally {
+    $page->renderPage();
+}

@@ -23,3 +23,9 @@ function url($path, $query = []): string
 
     return BASE_URL . $path . '?' . http_build_query($query);
 }
+
+function redirect($path, $query = []) {
+    $url = url($path, $query);
+    header('Location: ' . $url);
+    exit;
+}
