@@ -4,6 +4,7 @@ use App\Classes\Auth;
 use App\Classes\Request;
 use App\Exceptions\DoesNotExistsException;
 use App\Exceptions\NotFoundException;
+use App\Templates\CreatePage;
 use App\Templates\ErrorPage;
 use App\Templates\NotFoundPage;
 use App\Templates\PostPage;
@@ -12,13 +13,18 @@ session_start();
 
 require 'vendor/autoload.php';
 
+$page = '';
+
 try {
     Auth::checkAuthenticated();
 
     $request = new Request();
     switch ($request->get('action')) {
-        case 'post':
+        case 'posts':
             $page = new PostPage();
+            break;
+        case 'create':
+            $page = new CreatePage();
             break;
         case 'logout':
             Auth::logoutUser();
