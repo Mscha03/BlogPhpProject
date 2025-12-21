@@ -35,7 +35,6 @@ class LoginPage extends Template
                   $this->errors[] = 'invalid email or password';
               }
           } else {
-              dd($data->getErrors());
               $this->errors = $data->getErrors();
           }
         }

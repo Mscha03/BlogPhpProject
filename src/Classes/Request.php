@@ -19,7 +19,7 @@ class Request
             }
 
             foreach ($_FILES as $key => $value) {
-                $this->attributes[$key] = $value;
+                $this->attributes[$key] = new Upload($value);
             }
 
             foreach ($_GET as $key => $value) {
