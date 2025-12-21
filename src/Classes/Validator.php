@@ -73,12 +73,52 @@ class Validator
         }
         return false;
     }
+
     private function max($field, $value): false|string
     {
         if (strlen($this->request->{$field}) > $value) {
             return "{$field} must be less than {$value} characters long";
         }
 
+        return false;
+    }
+
+    private function in($field, $items): false|string
+    {
+        $items = explode(',', $items);
+        if (!in_array($this->request->{$field}, $items)) {
+            return "selected {$field} in invalid";
+        }
+        return false;
+    }
+
+    public function size($field, $len): false|string
+    {
+        if($this->request->{$field} > $len * 1024){
+            return "{$field} must be less than {$len} KB";
+        }
+        return false;
+    }
+
+    public function type($field, $types): false|string
+    {
+        $types = explode(',', $types);
+        if (!in_array($this->request->{$field}->getExtension(), $types)) {
+            return "selected {$field} in invalid";
+        }
+        return false;
+    }
+
+    public function file($field): false|string
+    {
+        if (!$this->request->{$field} instanceof Upload)
+        {
+            return "{$field} is not a valid file";
+        }
+        if (!$this->request->{$field}->isFile())
+        {
+            return "{$field} is not a file";
+        }
         return false;
     }
 }
