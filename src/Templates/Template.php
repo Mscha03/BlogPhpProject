@@ -112,9 +112,6 @@ abstract class Template
                     <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'social'])?>">Social</a></li>
                     <li><a href="<?= url(path: 'index.php', query: ['action' => 'category', 'category' => 'political'])?>">Political</a></li>
                     <li><a href="<?= url(path: 'index.php', query: ['action' => 'login'])?>">Login</a></li>
-                    <li><a href="#">Blog</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Contact Us</a></li>
                 </ul>
                 <form action="<?= url(path: 'index.php') ?>" method="GET">
                     <input type="hidden" name="action" value="search"/>

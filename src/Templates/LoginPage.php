@@ -30,7 +30,7 @@ class LoginPage extends Template
               $user = $userModel->authenticateUser(email: $this->request->email, password: $this->request->password);
               if ($user){
                   Auth::loginUser($user);
-                  redirect('panel.php');
+                  redirect('panel.php', ['action' => 'posts']);
               } else {
                   $this->errors[] = 'invalid email or password';
               }
