@@ -2,6 +2,7 @@
 
 namespace App\Templates;
 
+use App\Classes\Session;
 use App\Models\Post;
 use App\Templates\Template;
 
@@ -20,7 +21,15 @@ class PostPage extends Template
         $this->posts = $postModel->getAllData();
     }
 
-    public function renderPage()
+    public function showMessage(){
+        if(Session::get('message')){
+            ?>
+                <div class="message"><?= Session::flush('message') ?></div>
+            <?php
+        }
+    }
+
+    public function renderPage(): void
     {
         ?>
             <html lang="en">
@@ -29,6 +38,7 @@ class PostPage extends Template
                     <main>
                         <?php $this->getAdminNavbar(); ?>
                         <section class="content">
+                            <?php $this->showMessage();?>
                             <?php if(count($this->posts)): ?>
                                 <table>
                                     <thead>
@@ -50,8 +60,8 @@ class PostPage extends Template
                                                 <td><?= $post->getView() ?></td>
                                                 <td><?= $post->getDate() ?></td>
                                                 <td>
-                                                    <a href="#">Edit</a>
-                                                    <a href="#">Delete</a>
+                                                    <a href="<?= url('panel.php', ['action' => 'edit', 'id' => $post->getId() ])?>">Edit</a>
+                                                    <a href="<?= url('panel.php', ['action' => 'delete', 'id' => $post->getId() ])?>">Delete</a>
                                                 </td>
                                             </tr>
                                         <?php endforeach; ?>

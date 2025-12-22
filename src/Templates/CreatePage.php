@@ -2,6 +2,7 @@
 
 namespace App\Templates;
 
+use App\Classes\Session;
 use App\Entities\PostEntity;
 use App\Exceptions\DoesNotExistsException;
 use App\Models\Post;
@@ -51,6 +52,7 @@ class CreatePage extends Template
 
         $postModel->createData($post);
 
+        Session::flush('message', 'Post has been created');
         redirect('panel.php', ['action' => 'posts']);
     }
 
@@ -101,7 +103,7 @@ class CreatePage extends Template
                         <input type="file" id="image" name="image"/>
                     </div>
                     <div>
-                        <input type="submit" value="Submit"/>
+                        <input type="submit" value="Create Post"/>
                     </div>
                 </form>
             </section>

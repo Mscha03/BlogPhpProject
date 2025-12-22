@@ -23,7 +23,7 @@ class Session
         }
     }
 
-    public static function unset ($name): true
+    public static function forget ($name): true
     {
         unset($_SESSION[$name]);
         return true;
