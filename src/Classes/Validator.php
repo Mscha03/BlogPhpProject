@@ -15,7 +15,13 @@ class Validator
     public function validate($array): static
     {
         foreach ($array as $field => $rules) {
+            if (in_array('nullable', $rules) && !$this->request->{$field}->isFile()) {
+                continue;
+            }
             foreach ($rules as $rule) {
+                if ($rule === 'nullable'){
+                    continue;
+                }
                 if(str_contains($rule, ':')){
                    $rule = explode(':', $rule);
                    $ruleName = $rule[0];

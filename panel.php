@@ -5,6 +5,8 @@ use App\Classes\Request;
 use App\Exceptions\DoesNotExistsException;
 use App\Exceptions\NotFoundException;
 use App\Templates\CreatePage;
+use App\Templates\DeletePage;
+use App\Templates\EditPage;
 use App\Templates\ErrorPage;
 use App\Templates\NotFoundPage;
 use App\Templates\PostPage;
@@ -25,6 +27,12 @@ try {
             break;
         case 'create':
             $page = new CreatePage();
+            break;
+        case 'edit':
+            $page = new EditPage();
+            break;
+        case 'delete':
+            $page = new DeletePage();
             break;
         case 'logout':
             Auth::logoutUser();

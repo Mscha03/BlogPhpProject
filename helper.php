@@ -29,3 +29,11 @@ function redirect($path, $query = []) {
     header('Location: ' . $url);
     exit;
 }
+
+function deleteFile ($file)
+{
+    if (file_exists("./asset/" . $file)) {
+        unlink("./asset/" . $file);
+        return true;
+    }
+}
